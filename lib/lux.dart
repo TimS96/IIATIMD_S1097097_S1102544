@@ -84,7 +84,7 @@ class _CalculateLuxState extends State<CalculateLux> {
     if (savedLuxStrenght > 13000) {
       sunStrenght = savedLuxStrenght / 13000;
     }
-
+    print(sunStrenght);
     return sunStrenght.toInt();
   }
 
@@ -92,7 +92,7 @@ class _CalculateLuxState extends State<CalculateLux> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Light Example App'),
+        title: const Text('Meet zonnesterkte'),
       ),
       body: Center(
         child: Column(

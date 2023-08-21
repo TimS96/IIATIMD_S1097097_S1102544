@@ -9,9 +9,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  String skinType = 'vul nog even in.';
-  String sunScreenFactor = 'vul nog even in.';
-  String sunStrenght = 'Meet nog op!';
+  String skinType = 'Klik op de knop om in te vullen';
+  String sunScreenFactor = 'Klik op de knop om in te vullen';
+  String sunStrenght = 'Klik op de knop om te meten';
   String advice = 'Vul alle data in voor advies';
 
   setAdvice() {
@@ -103,39 +103,64 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Zonne app!')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('Huidtype: $skinType\n', style: const TextStyle(fontSize: 24)),
-            Text('Zonnebrand factor: $sunScreenFactor\n',
-                style: const TextStyle(fontSize: 24)),
-            ElevatedButton(
-              child: const Text('Vul in!'),
-              onPressed: () {
-                _navigateToFillData().then((_) {
-                  loadData();
-                  saveData();
-                });
-              },
-            ),
-            Text('Zonnesterkte: $sunStrenght\n',
-                style: const TextStyle(fontSize: 24)),
-            ElevatedButton(
-              child: const Text('Vul in!'),
-              onPressed: () {
-                _navigateToSunStrenght().then((_) {
-                  loadData();
-                  saveData();
-                });
-              },
-            ),
-            (advice.length < 10
-                ? Text('Advies: maximaal $advice\n minuten in de zon!',
-                    style: const TextStyle(fontSize: 24))
-                : Text(advice, style: const TextStyle(fontSize: 24))),
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text('Huidtype: $skinType\n',
+                            style: const TextStyle(fontSize: 24)),
+                        Text('Zonnebrand factor: $sunScreenFactor\n',
+                            style: const TextStyle(fontSize: 24)),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          child: const Text('Wijzig waardes'),
+                          onPressed: () {
+                            _navigateToFillData().then((_) {
+                              loadData();
+                              saveData();
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Text('Zonnesterkte: $sunStrenght\n',
+                  style: const TextStyle(fontSize: 24)),
+              ElevatedButton(
+                child: const Text('Meet zonnesterkte'),
+                onPressed: () {
+                  _navigateToSunStrenght().then((_) {
+                    loadData();
+                    saveData();
+                  });
+                },
+              ),
+              Container(
+                height: MediaQuery.of(context)
+                    .size
+                    .height, // Make the container take all available height
+                child: Center(
+                  child: advice.length < 10
+                      ? Text('Advies: maximaal $advice\n minuten in de zon!',
+                          style: const TextStyle(fontSize: 24))
+                      : Text(advice, style: const TextStyle(fontSize: 24)),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
