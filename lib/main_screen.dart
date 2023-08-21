@@ -104,7 +104,7 @@ class _MainScreenState extends State<MainScreen> {
     double topMargin = MediaQuery.of(context).size.width > 600 ? 128.0 : 16.0;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Zonne app!')),
+      appBar: AppBar(title: const Text('Zonne-app!')),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
