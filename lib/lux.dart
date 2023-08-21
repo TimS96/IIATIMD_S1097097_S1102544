@@ -11,7 +11,7 @@ class CalculateLux extends StatefulWidget {
 }
 
 class _CalculateLuxState extends State<CalculateLux> {
-  String luxString = 'begin met meten';
+  String luxString = 'geen';
   String savedLuxString = "Begin met meten";
   String savedSunStrenghtString = "Begin met meten";
   Light? light;
@@ -85,38 +85,73 @@ class _CalculateLuxState extends State<CalculateLux> {
     if (savedLuxStrenght > sunStrenghtDenominator) {
       sunStrenght = savedLuxStrenght / sunStrenghtDenominator;
     }
-    print(sunStrenght);
     return sunStrenght.toInt();
   }
 
   @override
   Widget build(BuildContext context) {
+    double topMargin = MediaQuery.of(context).size.width > 600 ? 128.0 : 16.0;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Meet zonnesterkte'),
       ),
-      body: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text('Huidige lux waarde: $luxString\n'),
-              Text('Laatste lux meting: $savedLuxString\n'),
-              Text('Zonne sterkte: $savedSunStrenghtString\n'),
-              (test == true
-                  ? ElevatedButton(
-                      onPressed: () {
-                        startMeasurement();
-                      },
-                      child: const Text('Begin met meten!'),
-                    )
-                  : ElevatedButton(
-                      onPressed: () {
-                        stopMeasurement();
-                      },
-                      child: const Text('meten!'),
-                    )),
-            ]),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+                'assets/background2.png'), // Replace with your image path
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FractionallySizedBox(
+                widthFactor: 0.8, // Adjust the width as needed
+                child: Container(
+                  margin: EdgeInsets.only(top: topMargin),
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Huidige lux waarde: $luxString\n',
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                      Text(
+                        'Laatste lux meting: $savedLuxString\n',
+                        style:
+                            const TextStyle(fontSize: 24, color: Colors.white),
+                      ),
+                      Text('Zonne sterkte: $savedSunStrenghtString\n',
+                          style: const TextStyle(
+                              fontSize: 24, color: Colors.white)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            (test == true
+                ? ElevatedButton(
+                    onPressed: () {
+                      startMeasurement();
+                    },
+                    child: const Text('Begin met meten!'),
+                  )
+                : ElevatedButton(
+                    onPressed: () {
+                      stopMeasurement();
+                    },
+                    child: const Text('meten!'),
+                  )),
+          ]),
+        ),
       ),
     );
   }

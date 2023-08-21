@@ -41,10 +41,11 @@ class _MainScreenState extends State<MainScreen> {
           skinTypeNumberCalculated = 60;
       }
 
-      return (skinTypeNumberCalculated /
-              sunStrenghtNumber *
-              sunScreenFactorNumber)
-          .toString();
+      int amountOfMinutesInSun =
+          (skinTypeNumberCalculated / sunStrenghtNumber * sunScreenFactorNumber)
+              .toInt();
+
+      return (amountOfMinutesInSun).toString();
     }
     return "Vul alle data in voor advies";
   }
@@ -99,46 +100,76 @@ class _MainScreenState extends State<MainScreen> {
     saveData();
   }
 
-  @override
   Widget build(BuildContext context) {
+    double topMargin = MediaQuery.of(context).size.width > 600 ? 128.0 : 16.0;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Zonne app!')),
-      body: SingleChildScrollView(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/background3.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Center(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+              FractionallySizedBox(
+                widthFactor: 0.8,
+                child: Container(
+                  margin: EdgeInsets.only(top: topMargin),
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
+                    child: Column(
                       children: [
-                        Text('Huidtype: $skinType\n',
-                            style: const TextStyle(fontSize: 24)),
-                        Text('Zonnebrand factor: $sunScreenFactor\n',
-                            style: const TextStyle(fontSize: 24)),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          child: const Text('Wijzig waardes'),
-                          onPressed: () {
-                            _navigateToFillData().then((_) {
-                              loadData();
-                              saveData();
-                            });
-                          },
+                        Text(
+                          'Huidtype: $skinType\n',
+                          style: const TextStyle(
+                              fontSize: 24, color: Colors.white),
+                        ),
+                        Text(
+                          'Zonnebrand factor: $sunScreenFactor\n',
+                          style: const TextStyle(
+                              fontSize: 24, color: Colors.white),
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-              Text('Zonnesterkte: $sunStrenght\n',
-                  style: const TextStyle(fontSize: 24)),
+              ElevatedButton(
+                child: const Text('Vul in'),
+                onPressed: () {
+                  _navigateToFillData().then((_) {
+                    loadData();
+                    saveData();
+                  });
+                },
+              ),
+              FractionallySizedBox(
+                widthFactor: 0.8,
+                child: Container(
+                  margin: EdgeInsets.only(top: topMargin),
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text('Zonnesterkte: $sunStrenght\n',
+                          style: const TextStyle(
+                              fontSize: 24, color: Colors.white)),
+                    ),
+                  ),
+                ),
+              ),
               ElevatedButton(
                 child: const Text('Meet zonnesterkte'),
                 onPressed: () {
@@ -148,15 +179,32 @@ class _MainScreenState extends State<MainScreen> {
                   });
                 },
               ),
-              Container(
-                height: MediaQuery.of(context)
-                    .size
-                    .height, // Make the container take all available height
-                child: Center(
-                  child: advice.length < 10
-                      ? Text('Advies: maximaal $advice\n minuten in de zon!',
-                          style: const TextStyle(fontSize: 24))
-                      : Text(advice, style: const TextStyle(fontSize: 24)),
+              FractionallySizedBox(
+                widthFactor: 0.8,
+                child: Container(
+                  margin: EdgeInsets.only(top: topMargin),
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: (advice.length < 10
+                      ? Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Center(
+                            child: Text(
+                                'Advies: maximaal $advice\n minuten in de zon!',
+                                style: const TextStyle(
+                                    fontSize: 24, color: Colors.white)),
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text(advice,
+                                style: const TextStyle(
+                                    fontSize: 24, color: Colors.white)),
+                          ),
+                        )),
                 ),
               ),
             ],
