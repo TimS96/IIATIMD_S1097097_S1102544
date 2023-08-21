@@ -78,11 +78,12 @@ class _CalculateLuxState extends State<CalculateLux> {
   //Na meten in direct zonlicht lijk het ook echt tot 130.000 tegaan
   //We reken dus 13000 lux gaat de zonkracht met 1 omhoog
   calculateSunStrenght() {
+    int sunStrenghtDenominator = 13000;
     double savedLuxStrenght = double.parse(luxString);
     double sunStrenght = 1;
 
-    if (savedLuxStrenght > 13000) {
-      sunStrenght = savedLuxStrenght / 13000;
+    if (savedLuxStrenght > sunStrenghtDenominator) {
+      sunStrenght = savedLuxStrenght / sunStrenghtDenominator;
     }
     print(sunStrenght);
     return sunStrenght.toInt();
