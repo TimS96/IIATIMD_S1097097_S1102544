@@ -74,14 +74,14 @@ class _CalculateLuxState extends State<CalculateLux> {
     });
   }
 
-  //op een bewolke dat is zonne sterken 1000 lux, direct zonlicht gaat van 30.000 tot 130.000
+  //op een bewolke dag is zonne sterken 1000 lux, direct zonlicht gaat van 30.000 tot 130.000
   //Na meten in direct zonlicht lijk het ook echt tot 130.000 tegaan
   //We reken dus 13000 lux gaat de zonkracht met 1 omhoog
   calculateSunStrenght() {
     double savedLuxStrenght = double.parse(luxString);
     double sunStrenght = 1;
 
-    if (savedLuxStrenght > 1000) {
+    if (savedLuxStrenght > 13000) {
       sunStrenght = savedLuxStrenght / 13000;
     }
 

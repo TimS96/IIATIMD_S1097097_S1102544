@@ -108,9 +108,9 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Huidtype: $skinType\n', style: TextStyle(fontSize: 24)),
+            Text('Huidtype: $skinType\n', style: const TextStyle(fontSize: 24)),
             Text('Zonnebrand factor: $sunScreenFactor\n',
-                style: TextStyle(fontSize: 24)),
+                style: const TextStyle(fontSize: 24)),
             ElevatedButton(
               child: const Text('Vul in!'),
               onPressed: () {
@@ -121,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
               },
             ),
             Text('Zonnesterkte: $sunStrenght\n',
-                style: TextStyle(fontSize: 24)),
+                style: const TextStyle(fontSize: 24)),
             ElevatedButton(
               child: const Text('Vul in!'),
               onPressed: () {
@@ -133,8 +133,8 @@ class _MainScreenState extends State<MainScreen> {
             ),
             (advice.length < 10
                 ? Text('Advies: maximaal $advice\n minuten in de zon!',
-                    style: TextStyle(fontSize: 24))
-                : Text(advice, style: TextStyle(fontSize: 24))),
+                    style: const TextStyle(fontSize: 24))
+                : Text(advice, style: const TextStyle(fontSize: 24))),
           ],
         ),
       ),

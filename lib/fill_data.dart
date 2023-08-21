@@ -16,10 +16,10 @@ class _FillDataWidgetState extends State<FillDataWidget> {
   @override
   void initState() {
     super.initState();
-    _loadData();
+    loadData();
   }
 
-  void _loadData() async {
+  void loadData() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
       skinType = prefs?.getString("Huidtype") ?? "";
@@ -27,7 +27,7 @@ class _FillDataWidgetState extends State<FillDataWidget> {
     });
   }
 
-  void _saveData(String value, String key) async {
+  void saveData(String value, String key) async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
       prefs?.setString(key, value);
@@ -55,7 +55,7 @@ class _FillDataWidgetState extends State<FillDataWidget> {
             onChanged: (value) {
               setState(() {
                 skinType = value;
-                _saveData(value, 'Huidtype');
+                saveData(value, 'Huidtype');
               });
             },
           ),
@@ -68,7 +68,7 @@ class _FillDataWidgetState extends State<FillDataWidget> {
             onChanged: (value) {
               setState(() {
                 sunScreenFactor = value;
-                _saveData(value, 'ZonnebrandFactor');
+                saveData(value, 'ZonnebrandFactor');
               });
             },
           ),
