@@ -17,7 +17,8 @@ class _MainScreenState extends State<MainScreen> {
   setAdvice() {
     if (skinType.length < 5 &&
         sunScreenFactor.length < 5 &&
-        sunStrenght.length < 10) {
+        sunStrenght.length < 10 &&
+        sunScreenFactor != "0") {
       int skinTypeNumber = int.parse(skinType);
       int sunScreenFactorNumber = int.parse(sunScreenFactor);
       int sunStrenghtNumber = int.parse(sunStrenght);
@@ -70,7 +71,7 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       skinType = prefs?.getString("Huidtype") ?? "";
       sunScreenFactor = prefs?.getString("ZonnebrandFactor") ?? "";
-      sunStrenght = prefs?.getString("SavedLuxString") ?? "";
+      sunStrenght = prefs?.getString("SavedSunStrenghtString") ?? "";
       advice = prefs?.getString("Advice") ?? "";
       advice = setAdvice();
     });
@@ -91,7 +92,7 @@ class _MainScreenState extends State<MainScreen> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CalculateLux(),
+        builder: (context) => const CalculateLux(),
       ),
     );
     loadData();
@@ -130,8 +131,10 @@ class _MainScreenState extends State<MainScreen> {
                 });
               },
             ),
-            Text('Advies: $advice\n minuten in de zon!',
-                style: TextStyle(fontSize: 24)),
+            (advice.length < 10
+                ? Text('Advies: maximaal $advice\n minuten in de zon!',
+                    style: TextStyle(fontSize: 24))
+                : Text(advice, style: TextStyle(fontSize: 24))),
           ],
         ),
       ),

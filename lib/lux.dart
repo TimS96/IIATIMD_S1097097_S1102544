@@ -11,8 +11,9 @@ class CalculateLux extends StatefulWidget {
 }
 
 class _CalculateLuxState extends State<CalculateLux> {
-  String luxString = 'Unknown';
-  String SavedLuxString = "Begin met meten";
+  String luxString = 'begin met meten';
+  String savedLuxString = "Begin met meten";
+  String savedSunStrenghtString = "Begin met meten";
   Light? light;
   StreamSubscription? subscription;
   SharedPreferences? prefs;
@@ -45,7 +46,8 @@ class _CalculateLuxState extends State<CalculateLux> {
   void loadData() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
-      SavedLuxString = prefs?.getString("SavedLuxString") ?? "";
+      savedLuxString = prefs?.getString("SavedLuxString") ?? "";
+      savedSunStrenghtString = prefs?.getString("SavedSunStrenghtString") ?? "";
     });
   }
 
@@ -60,13 +62,30 @@ class _CalculateLuxState extends State<CalculateLux> {
 
   void stopMeasurement() {
     setState(() {
-      SavedLuxString = luxString;
+      savedLuxString = luxString;
+      prefs?.setString(
+          'SavedSunStrenghtString', calculateSunStrenght().toString());
       prefs?.setString('SavedLuxString', luxString);
     });
     stopListening();
     setState(() {
       test = !test;
+      savedSunStrenghtString = prefs?.getString("SavedSunStrenghtString") ?? "";
     });
+  }
+
+  //op een bewolke dat is zonne sterken 1000 lux, direct zonlicht gaat van 30.000 tot 130.000
+  //Na meten in direct zonlicht lijk het ook echt tot 130.000 tegaan
+  //We reken dus 13000 lux gaat de zonkracht met 1 omhoog
+  calculateSunStrenght() {
+    double savedLuxStrenght = double.parse(luxString);
+    double sunStrenght = 1;
+
+    if (savedLuxStrenght > 1000) {
+      sunStrenght = savedLuxStrenght / 13000;
+    }
+
+    return sunStrenght.toInt();
   }
 
   @override
@@ -80,8 +99,9 @@ class _CalculateLuxState extends State<CalculateLux> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Lux value: $luxString\n'),
-              Text('Laatste meting: $SavedLuxString\n'),
+              Text('Huidige lux waarde: $luxString\n'),
+              Text('Laatste lux meting: $savedLuxString\n'),
+              Text('Zonne sterkte: $savedSunStrenghtString\n'),
               (test == true
                   ? ElevatedButton(
                       onPressed: () {
